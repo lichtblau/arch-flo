@@ -1,3 +1,19 @@
+This is hzp's fork of arch-flo, and mostly unchanged.  I happen to be
+using it with Debian, YMMV.  Since I'm too lazy to maintain the README,
+here a quick list of obvious differences instead:
+
+  - refresher.c updated to read the button event, toggling screen
+    brightness.
+
+  - crondog's kernel doesn't like my wifi firmware (or vice versa).
+    Using the lollipop kernel instead:
+
+      https://github.com/lichtblau/kernel_msm
+
+    (branch lollipop)
+
+Original README follows:
+
 # Arch Linux on Nexus 7 2013 Flo (Native)
 
 Here are my instructions on getting Arch Linux ARM natively booting on the
