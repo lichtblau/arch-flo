@@ -31,36 +31,35 @@ void fb_getinfo(struct fb_info *fb_info){
         printf("dim %dmm x %dmm\n", fb_info->var.width, fb_info->var.height);
         printf("xoffset %d yoffset %d\n", fb_info->var.xoffset, fb_info->var.yoffset);
 }
+
 int fb_open(struct fb_info *fb_info){
+        int fd = open("/dev/fb0", O_RDWR);
 
-    int fd = open("/dev/fb0", O_RDWR);
+        if(fd < 0){
+                printf("Failed to open fb\n");
+                return 1;
+        }
 
-    if(fd < 0){
-        printf("Failed to open fb\n");
-        return 1;
-    }
-
-    memset(fb_info, 0, sizeof(struct fb_info));
-    fb_info->fd = fd;
-    return 0;
+        memset(fb_info, 0, sizeof(struct fb_info));
+        fb_info->fd = fd;
+        return 0;
 }
-
 
 void flip_buffer(struct fb_info *fb_info, int n){
-    if( ioctl(fb_info->fd, FBIOPAN_DISPLAY, &fb_info->var) < 0 ){
-        perror("Failed FBIOPAN_DISPLAY");
-    }
+        if( ioctl(fb_info->fd, FBIOPAN_DISPLAY, &fb_info->var) < 0 ){
+                perror("Failed FBIOPAN_DISPLAY");
+        }
 }
+
 int main(int argc, char *argv[]){
-  
-    setpriority(PRIO_PROCESS, 0, -20);
+        setpriority(PRIO_PROCESS, 0, -20);
 
-    struct fb_info fb_info;
-    fb_open(&fb_info);
+        struct fb_info fb_info;
+        fb_open(&fb_info);
 
-    while(1){
-        flip_buffer(&fb_info,0);
-        usleep(16666);
-    }
-    return 0;
+        while(1){
+                flip_buffer(&fb_info,0);
+                usleep(16666);
+        }
+        return 0;
 }
