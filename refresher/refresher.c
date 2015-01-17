@@ -1,3 +1,4 @@
+/* -*- indent-tabs-mode: nil -*- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,19 +17,19 @@
 #include <linux/fb.h>
 
 struct fb_info{
-	int fd;
-	void *ptr;
-	struct fb_var_screeninfo var;
-	struct fb_fix_screeninfo fix;
+        int fd;
+        void *ptr;
+        struct fb_var_screeninfo var;
+        struct fb_fix_screeninfo fix;
 };
 
 void fb_getinfo(struct fb_info *fb_info){
-	printf("fb res %dx%d virtual %dx%d, line_len %d\n",
-			fb_info->var.xres, fb_info->var.yres,
-			fb_info->var.xres_virtual, fb_info->var.yres_virtual,
-			fb_info->fix.line_length);
-	printf("dim %dmm x %dmm\n", fb_info->var.width, fb_info->var.height);
-	printf("xoffset %d yoffset %d\n", fb_info->var.xoffset, fb_info->var.yoffset);
+        printf("fb res %dx%d virtual %dx%d, line_len %d\n",
+                        fb_info->var.xres, fb_info->var.yres,
+                        fb_info->var.xres_virtual, fb_info->var.yres_virtual,
+                        fb_info->fix.line_length);
+        printf("dim %dmm x %dmm\n", fb_info->var.width, fb_info->var.height);
+        printf("xoffset %d yoffset %d\n", fb_info->var.xoffset, fb_info->var.yoffset);
 }
 int fb_open(struct fb_info *fb_info){
 
