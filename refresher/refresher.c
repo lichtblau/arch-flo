@@ -15,6 +15,7 @@
 #include <sys/mman.h>
 
 #include <linux/fb.h>
+#include "gpio.h"
 
 struct fb_info{
         int fd;
@@ -52,14 +53,31 @@ void flip_buffer(struct fb_info *fb_info, int n){
 }
 
 int main(int argc, char *argv[]){
+        int power = open_gpio_keys();
+        int on = 1;
         setpriority(PRIO_PROCESS, 0, -20);
 
         struct fb_info fb_info;
         fb_open(&fb_info);
 
         while(1){
+                if (power == -1) /* power button not found */
+                        usleep(16666);
+                else
+                        switch (poll_gpio(power, on ? 16666 : -1)) {
+                        case 1:
+                                /* power button down */
+                                on = !on;
+                                set_backlight(on ? 128 : 0);
+                                break;
+                        case -1:
+                                /* power button up */
+                                break;
+                        default:
+                                /* timeout */
+                                break;
+                        }
                 flip_buffer(&fb_info,0);
-                usleep(16666);
         }
         return 0;
 }
