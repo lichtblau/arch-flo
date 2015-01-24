@@ -1,0 +1,11 @@
+[Unit]
+Before=graphical.target
+
+[Service]
+ExecStart=/opt/noisy/noisy /opt/noisy/unplug.wav /opt/noisy/plugin.wav
+User=noisy
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+

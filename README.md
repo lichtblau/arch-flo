@@ -5,6 +5,16 @@ here a quick list of obvious differences instead:
   - refresher.c updated to read the button event, toggling screen
     brightness.
 
+  - noisy.c added -- plays a sound when Oi charging starts or stops.
+
+    Put the binary and two sound files into /opt/noisy, and create a
+    home directory /opt/noisy/home owned by the noisy user.
+
+    E.g.:
+    useradd -s /usr/sbin/nologin -g nogroup -d /opt/noisy -m noisy
+
+    Why is a home needed?  Because pulseaudio tries to write stuff...
+
   - crondog's kernel doesn't like my wifi firmware (or vice versa).
     Using the lollipop kernel instead:
 
